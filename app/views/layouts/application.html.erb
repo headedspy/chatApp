@@ -2,8 +2,77 @@
 <html>
   <head>
     <title>ChatApp2</title>
-    <%= csrf_meta_tags %>
 
+    <style>
+	.metro-over{
+		border: none;
+		outline: 0;
+		background: none;
+		color: white;
+		font-weight: bold;
+	}
+	.metro{
+		position:relative;
+		display: inline-block;
+		padding: 10px;
+		margin: 10px;
+		background: #08C;
+		color: white;
+		font-weight: bold;
+		text-decoration: none;
+		box-shadow:
+			1px 1px #53A7EA,
+			2px 2px #53A7EA,
+			3px 3px #53A7EA;
+		transition: all 0.1s ease-in;
+	}
+	.metro:hover{
+		background: #0AF
+	}
+	.metro:active{
+		box-shadow: none;
+		top:3px;
+		left:3px;
+	}
+	.depth{
+		resize:none;
+		display:block:
+		border: 1px solid rgba(255,255,255,0.6);
+		background: linear-gradient(#EEE, #FFF);
+		transition: all 0.3s ease-out;
+		box-shadow: inset 0 1px 4px rgba(0,0,0,0.4);
+		padding: 5px;
+		color: #555;
+	}
+	.depth:focus{
+		outline: none;
+		background-position: 0 -1.7em;
+	}
+
+	.inline-link{
+		display: inline-block;
+		margin: 0 0.2em;
+		padding: 3px;
+		background: #97CAF2;
+		border-radius: 2px;
+		transition: all 0.3s ease-out;
+		text-decoration: none;
+		font-weight: bold;
+		color:white;
+	}
+	.inline-link:hover{
+		background: #53A7EA
+	}
+	.inline-link:active{
+		background: #C4E1F8
+	}
+	.inline-link:empty{
+		display:none;
+	}
+    </style>
+
+    <%= csrf_meta_tags %>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>

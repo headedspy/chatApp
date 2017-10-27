@@ -1,6 +1,8 @@
 MIN_ID = 1
-MAX_ID = 2
+MAX_ID = 10000
 $usedIDs = Array.new
+$link = ""
+$herokuURL = "https://secret-msg.herokuapp.com"
 
 def get_id
 	isPresent = false
@@ -22,15 +24,14 @@ def new(text, id)
 	a = Database.create( :number => id.to_s, :data => text, :id => id.to_i)
 	b = a.save
 	unless b
-		render plain: "Gre6ka maina"
+		render plain: "ERR: COULD NOT SAVE MESSAGE"
 		return 0;
 	end
-	render plain: id
 end
 
 def read(id)
 	unless $usedIDs.include?(id.to_s)
-		render plain: ">>>MAHAISAWE<<<"
+		render plain: "ERR: NO MESSAGE WITH THIS ID"
 		return 0;
 	end
 	a = Database.find(id.to_i)
@@ -44,16 +45,24 @@ class WelcomeController < ApplicationController
 
 	def reset
 		Database.delete_all
+		$link = ""
+		redirect_back(fallback_location: root_path)
 	end
 	
 	def show
 		id = params[:id]
+		if id.to_i == -1
+			reset
+			return 0;
+		end
 		read(id)
 	end
 
 	def create
-		text = params[:text]
 		a = get_id
+		text = params[:text]
+		$link = $herokuURL + "/messages/" + a
 		new(text,a)
+		redirect_back(fallback_location: root_path)
 	end
 end
