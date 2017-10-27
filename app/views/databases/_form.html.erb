@@ -1,0 +1,27 @@
+<%= form_with(model: database, local: true) do |form| %>
+  <% if database.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(database.errors.count, "error") %> prohibited this database from being saved:</h2>
+
+      <ul>
+      <% database.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :number %>
+    <%= form.text_field :number, id: :database_number %>
+  </div>
+
+  <div class="field">
+    <%= form.label :data %>
+    <%= form.text_field :data, id: :database_data %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

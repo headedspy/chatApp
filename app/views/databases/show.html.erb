@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Number:</strong>
+  <%= @database.number %>
+</p>
+
+<p>
+  <strong>Data:</strong>
+  <%= @database.data %>
+</p>
+
+<%= link_to 'Edit', edit_database_path(@database) %> |
+<%= link_to 'Back', databases_path %>

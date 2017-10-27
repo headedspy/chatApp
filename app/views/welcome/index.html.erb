@@ -1,0 +1,7 @@
+<h1>4at (sort of)</h1>
+
+<%= form_tag({}, multipart: true) do %>
+	<%= text_area_tag 'text', nil, rows:6, cols: 30 %>
+	<p><%= submit_tag 'Get Link' %>
+<% end %>
+<%= button_to "RESET", :action => "reset" %>
