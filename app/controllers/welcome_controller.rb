@@ -24,7 +24,7 @@ def new(text, id)
 	a = Database.create( :number => id.to_s, :data => text, :id => id.to_i)
 	b = a.save
 	unless b
-		render plain: "ERR: COULD NOT SAVE MESSAGE"
+		render plain: "ERR: COULD NOT SAVE MESSAGE" #toHTML
 		return 0;
 	end
 end
