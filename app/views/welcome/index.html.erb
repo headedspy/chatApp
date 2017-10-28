@@ -6,10 +6,12 @@
 
 <%= form_tag({}, multipart: true) do %>
 	<div class="depth"><%= text_area_tag 'text', nil, rows:6, cols: 100, class:"depth" %><div>
-	<div style="position:relative; top:-80px; left:82%" class="metro"><%= submit_tag 'Get Link', class:"metro-over"%></div>
+	<p><div style="position:relative; display:inline; left:50%" class="metro"><%= submit_tag 'Get Link', class:"metro-over"%></div>
 <% end %>
-<pre>
-	<h4 style="text-align:center"><a href="<%= $link.inspect[1..-2] %>", class="inline-link"><%= $link.inspect[1..-2] %></a><h4>
+<p style="padding-bottom:1cm"><pre style="border-radius:25px">
+	<h4 style="text-align:center"><a href="<%= $link.inspect[1..-2] %>", class="inline-link"><%= $link.inspect[1..-2] %></a></h4>
 </pre>
-
+<p><pre style="background-color:SkyBlue; border-radius:25px">
+	<h5 style="text-align:center; font-family:Courier New"><%= $message.inspect[1..-2] %></h5>
+</pre>
 </div>

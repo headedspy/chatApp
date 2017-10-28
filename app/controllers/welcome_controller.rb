@@ -3,7 +3,7 @@ MAX_ID = 10000
 $usedIDs = Array.new
 $link = ""
 $herokuURL = "https://secret-msg.herokuapp.com"
-
+$message = ""
 def get_id
 	isPresent = false
 	until isPresent
@@ -21,21 +21,27 @@ def del(id)
 end
 
 def new(text, id)
-	a = Database.create( :number => id.to_s, :data => text, :id => id.to_i)
-	b = a.save
-	unless b
-		render plain: "ERR: COULD NOT SAVE MESSAGE" #toHTML
-		return 0;
+	unless id != nil
+		a = Database.create( :number => id.to_s, :data => text, :id => id.to_i)
+		b = a.save
+		unless b
+			$message = "ERR: COULD NOT SAVE MESSAGE"
+			redirect_back(fallback_location: root_path)
+			return 0;
+		end
 	end
 end
 
 def read(id)
 	unless $usedIDs.include?(id.to_s)
-		render plain: "ERR: NO MESSAGE WITH THIS ID"
-		return 0;
+		$message = "ERR: NO MESSAGE WITH THIS ID"
+		redirect_back(fallback_location: root_path)
+		return 0
 	end
 	a = Database.find(id.to_i)
-	render plain: a.send(:data)
+	$message = a.send(:data)
+	$link = ""
+	redirect_back(fallback_location: root_path)
 	del(id)
 end
 
