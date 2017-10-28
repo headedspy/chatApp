@@ -22,7 +22,7 @@ end
 
 def new(text, id)
 	unless id == nil
-		a = Database.create(  :data => text, :id => id.to_i)
+		a = Database.create(:data => text, :id => id.to_i)
 		b = a.save
 		unless b
 			$message = "ERR: COULD NOT SAVE MESSAGE"
@@ -62,7 +62,6 @@ class WelcomeController < ApplicationController
 			return 0;
 		end
 		read(id)
-		$message = ""
 	end
 
 	def create
