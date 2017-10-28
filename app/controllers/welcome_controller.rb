@@ -1,5 +1,5 @@
 MIN_ID = 1
-MAX_ID = 10000
+MAX_ID = 100000
 $usedIDs = Array.new
 $link = ""
 $herokuURL = "https://secret-msg.herokuapp.com"
@@ -21,6 +21,12 @@ def del(id)
 end
 
 def new(text, id)
+	if text == ""
+		$message = "ERR: PROVIDE SOME TEXT"
+		$usedIDs.delete(id.to_s)
+		$link = ""
+		return 0
+	end
 	unless id == nil
 		a = Database.create(:data => text, :id => id.to_i)
 		b = a.save
@@ -49,6 +55,11 @@ class WelcomeController < ApplicationController
 	def index
 	end
 
+	def clear
+		$link = ""
+		$message = ""
+	end
+
 	def reset
 		Database.delete_all
 		$link = ""
@@ -65,8 +76,9 @@ class WelcomeController < ApplicationController
 	end
 
 	def create
-		a = get_id
+		clear
 		text = params[:text]
+		a = get_id
 		$link = $herokuURL + "/messages/" + a
 		new(text, a)
 		redirect_back(fallback_location: root_path)

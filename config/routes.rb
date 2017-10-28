@@ -5,7 +5,5 @@ Rails.application.routes.draw do
 
 	root 'welcome#index'
 	post 'welcome/index' => 'welcome#create'
-
-	post 'welcome/reset' => 'welcome#reset'
 end
 
