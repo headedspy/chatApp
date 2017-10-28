@@ -21,8 +21,8 @@ def del(id)
 end
 
 def new(text, id)
-	unless id != nil
-		a = Database.create( :number => id.to_s, :data => text, :id => id.to_i)
+	unless id == nil
+		a = Database.create(  :data => text, :id => id.to_i)
 		b = a.save
 		unless b
 			$message = "ERR: COULD NOT SAVE MESSAGE"
@@ -32,17 +32,17 @@ def new(text, id)
 	end
 end
 
-def read(id)
-	unless $usedIDs.include?(id.to_s)
+def read(iden)
+	unless $usedIDs.include?(iden.to_s)
 		$message = "ERR: NO MESSAGE WITH THIS ID"
 		redirect_back(fallback_location: root_path)
 		return 0
 	end
-	a = Database.find(id.to_i)
+	a = Database.find(iden.to_i)
 	$message = a.send(:data)
 	$link = ""
 	redirect_back(fallback_location: root_path)
-	del(id)
+	del(iden.to_i)
 end
 
 class WelcomeController < ApplicationController
@@ -62,13 +62,14 @@ class WelcomeController < ApplicationController
 			return 0;
 		end
 		read(id)
+		$message = ""
 	end
 
 	def create
 		a = get_id
 		text = params[:text]
 		$link = $herokuURL + "/messages/" + a
-		new(text,a)
+		new(text, a)
 		redirect_back(fallback_location: root_path)
 	end
 end
