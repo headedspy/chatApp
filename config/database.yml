@@ -25,11 +25,14 @@ development:
   <<: *default
 
   adapter: postgresql
-  host: localhost
-
+  #host: localhost
   database: ChatApp2_development
-  username: user#postgres
-  password: app-dev#raspberry
+  #username: user#postgres
+  #password: app-dev#raspberry
+  username: postgres
+  password: raspberry
+  
+  
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
