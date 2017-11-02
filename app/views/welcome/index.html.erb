@@ -7,7 +7,7 @@
 <%= form_tag({}, multipart: true) do %>
 	<div class="depth"><%= text_area_tag 'text', nil, rows:6, cols: 100, class:"depth" %><div>
 	<p><div style="position:relative; display:inline; left:50%" class="metro"><%= submit_tag 'Get Link', class:"metro-over"%></div>
-	<%= file_field_tag 'file', :style => "display:none" %>
+	<% file_field_tag 'file' %>
 <% end %>
 <p style="padding-bottom:1cm"><pre style="border-radius:25px">
 	<h4 style="text-align:center"><a href="<%= $link.inspect[1..-2] %>", class="inline-link"><%= $link.inspect[1..-2] %></a></h4>

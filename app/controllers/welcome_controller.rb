@@ -9,17 +9,6 @@ $herokuURL = "https://secret-msg.herokuapp.com"
 $message = ""
 $isBrowser = true
 
-def is_json?(f)
-	JSON.parse(f)
-	true
-rescue
-	false
-end
-
-def is_xml?(f)
-	return Nokogiri::XML(f).errors.empty?
-end
-
 def get_id
 	isPresent = false
 	until isPresent
@@ -108,13 +97,18 @@ class WelcomeController < ApplicationController
 
 	def api
 		$isBrowser = false
-		
-		f = params[:file]
 
-		if is_json?(f)
+		f = params[:file]
+		type = f.path[-4..-1]
+
+		p f
+		if type == "json"
 			f.open
 			file = File.read(f.path)
 			data = JSON.parse(file)
+			p data
+
+			
 
 			if data.has_key?("message")
 				a = get_id
@@ -127,9 +121,7 @@ class WelcomeController < ApplicationController
 				render plain: $message
 			end
 
-		elsif is_xml?(f)
-
-
+		elsif type == ".xml"
 			data = File.open(f.path) { |f| Nokogiri::XML(f) }
 
 			unless data.at_xpath('//message').blank?
