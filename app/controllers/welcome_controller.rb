@@ -1,4 +1,4 @@
-require 'json'
+
 require 'nokogiri'
 
 MIN_ID = 10000
@@ -7,7 +7,6 @@ $usedIDs = Array.new
 $link = ""
 $herokuURL = "https://secret-msg.herokuapp.com"
 $message = ""
-$isBrowser = true
 
 def get_id
 	isPresent = false
@@ -46,9 +45,7 @@ end
 def read(iden)
 	unless $usedIDs.include?(iden.to_s)
 		$message = "ERR: NO MESSAGE WITH THIS ID"
-		if $isBrowser
-			redirect_back(fallback_location: root_path)
-		end
+		redirect_back(fallback_location: root_path)
 		return 0
 	end
 	a = Database.find(iden.to_i)
@@ -95,49 +92,19 @@ class WelcomeController < ApplicationController
 		redirect_back(fallback_location: root_path)
 	end
 
-	def api
-		$isBrowser = false
+	def notesapi
+		type = request.headers["Content-Type"]
+		uid = get_id
+		res = {"url" => uid}
 
-		f = params[:file]
-		type = f.path[-4..-1]
-
-		p f
-		if type == "json"
-			f.open
-			file = File.read(f.path)
-			data = JSON.parse(file)
-			p data
-
+		if type == "application/json"
+			text = params[:message]
+			render json: res
 			
-
-			if data.has_key?("message")
-				a = get_id
-				new(data["message"], a)
-				render plain: a
-				
-			elsif data.has_key?("url")
-				id = data["url"][-5..-1]
-				read(id)
-				render plain: $message
-			end
-
-		elsif type == ".xml"
-			data = File.open(f.path) { |f| Nokogiri::XML(f) }
-
-			unless data.at_xpath('//message').blank?
-				msg = data.at_xpath('//message').content
-				a = get_id
-				new(msg, a)
-				render plain: a
-			end
-
-			unless data.at_xpath('//url').blank?
-				id = data.at_xpath('//url').content[-5..-1]
-				read(id)
-				render plain: $message
-			end
-		end
-
-		f.close
+		elsif type == "text/xml"
+			text = Nokogiri::XML.fragment(request.body.read).content
+			render xml: res
+		end	
+		new(text, uid)
 	end
 end
