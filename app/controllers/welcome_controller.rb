@@ -51,9 +51,7 @@ def read(iden)
 	a = Database.find(iden.to_i)
 	$message = a.send(:data)
 	$link = ""
-	if $isBrowser 
-		redirect_back(fallback_location: root_path)
-	end
+	redirect_back(fallback_location: root_path)
 	del(iden.to_i)
 end
 
