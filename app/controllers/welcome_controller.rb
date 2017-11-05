@@ -93,8 +93,8 @@ class WelcomeController < ApplicationController
 	def notesapi
 		type = request.headers["Content-Type"]
 		uid = get_id
-		res = {"url" => uid}
-
+		$link = $herokuURL + "/messages/" + uid
+		res = {"url" => $link}
 		if type == "application/json"
 			text = params[:message]
 			render json: res
